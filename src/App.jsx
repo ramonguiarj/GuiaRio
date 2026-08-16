@@ -1065,7 +1065,7 @@ export default function RioGuideApp() {
         </div>
       )}
 
-      {activeTopic === "alimentacao" && (
+         {activeTopic === "alimentacao" && (
         <div className="scrollRow" style={{ display: "flex", gap: 6, overflowX: "auto", padding: "0 20px 4px" }}>
           {TIPOS_COMIDA.map((t) => (
             <button key={t.id} className={"subchip " + (activeTipo === t.id ? "active" : "")} onClick={() => setActiveTipo(t.id)}>
@@ -1074,6 +1074,7 @@ export default function RioGuideApp() {
           ))}
         </div>
       )}
+
 
       {activeTopic === "sobre" ? null : view === "mapa" ? (
         <div style={{ padding: "10px 20px" }}>
