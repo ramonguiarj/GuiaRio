@@ -19,7 +19,12 @@ const TOPICS = [
   { id: "sobre", label: "Sobre / Serviços", icon: "\u{1F310}", blurb: "Conheça o trabalho do Ramon como guia e fotógrafo, e feche seu passeio direto pelo site." },
   const changeTopic = (id) => {
   setActiveTopic(id); setActiveSub("todos"); setActiveTipo("todos"); setQuery("");
-  if (id !== "diversao" && view === "agenda") setView("lista");
+  if (id !== "diversao" && view === "agenda") setView("lista");{activeTopic === "diversao" && (
+  <button className={"viewBtn " + (view === "agenda" ? "active" : "")} onClick={() => setView("agenda")}>
+    <Calendar size={13} /> Agenda
+  </button>
+)}
+
 };
 
 ];
@@ -97,6 +102,18 @@ const TIPOS_COMIDA = [
   { id: "petiscos", label: "Bar/Petiscos" },
   { id: "cafe-doceria", label: "Café/Doceria" },
 ];
+{activeTopic === "transporte" && activeSub === "metro" && (
+  <div style={{ padding: "6px 20px 4px" }}>
+    <MetroMapView onSelectStation={(name) => {
+      const found = PLACES.find((p) => p.sub === "metro" && p.name.includes(name));
+      if (found) setSelected(coords ? { ...found, dist: haversine(coords.lat, coords.lng, found.lat, found.lng) } : found);
+    }} />
+    <p style={{ fontSize: 11, color: "rgba(225,220,198,0.4)", marginTop: 8 }}>
+      Mapa esquemático simplificado — para horários oficiais, consulte o app MetrôRio.
+    </p>
+  </div>
+)}
+
 
 const PLACES = [
   // ---------- HOSPEDAGEM ----------
