@@ -865,7 +865,14 @@ export default function RioGuideApp() {
     );
   };
 
-  const changeTopic = (id) => { setActiveTopic(id); setActiveSub("todos"); setActiveTipo("todos"); setQuery(""); };
+  const changeTopic = (id) => {
+  setActiveTopic(id);
+  setActiveSub("todos");
+  setActiveTipo("todos");
+  setQuery("");
+  if (id !== "diversao" && view === "agenda") setView("lista");
+};
+
 
   const list = useMemo(() => {
     let items = PLACES.filter((p) => p.cat === activeTopic);
