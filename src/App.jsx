@@ -18,11 +18,14 @@ const TOPICS = [
   { id: "servicos", label: "Serviços", icon: "\u{1F3E5}", blurb: "Aeroportos, rodoviária, hospitais, farmácias 24h e mais — informação essencial pra quem está de passagem." },
   { id: "sobre", label: "Sobre / Serviços", icon: "\u{1F310}", blurb: "Conheça o trabalho do Ramon como guia e fotógrafo, e feche seu passeio direto pelo site." },
   const changeTopic = (id) => {
-  setActiveTopic(id); setActiveSub("todos"); setActiveTipo("todos"); setQuery("");
-  if (id !== "diversao" && view === "agenda") setView("lista");{activeTopic === "diversao" && (
-  <button className={"viewBtn " + (view === "agenda" ? "active" : "")} onClick={() => setView("agenda")}>
-    <Calendar size={13} /> Agenda
-  </button>
+  const changeTopic = (id) => {
+  setActiveTopic(id);
+  setActiveSub("todos");
+  setActiveTipo("todos");
+  setQuery("");
+  if (id !== "diversao" && view === "agenda") setView("lista");
+};
+
 )}
 
 };
