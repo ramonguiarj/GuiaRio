@@ -564,6 +564,174 @@ const PLACES = [
   { id: 459, name: "O Sol Artesanato Brasileiro", cat: "compras", sub: "lembrancas", bairro: "Ipanema", lat: -22.982707, lng: -43.208633, rating: 4.4, tip: "Artesanato de qualidade, apoia comunidades locais" },
   { id: 460, name: "Espaço Havaianas Copacabana", cat: "compras", sub: "lembrancas", bairro: "Copacabana", lat: -22.969678, lng: -43.180433, rating: 4.3, tip: "Loja conceito na orla de Copacabana" },
 ];
+// ---------- PREÇOS APROXIMADOS ----------
+function estimateHotelPrice(rating) {
+  if (rating >= 4.7) return "R$ 700–1.400/noite";
+  if (rating >= 4.5) return "R$ 450–700/noite";
+  if (rating >= 4.3) return "R$ 280–450/noite";
+  if (rating >= 4.1) return "R$ 180–280/noite";
+  return "R$ 120–180/noite";
+}
+
+const MEAL_PRICE_BY_TIPO = {
+  churrasco: "R$ 90–160 / pessoa", frutosdomar: "R$ 100–180 / pessoa",
+  japonesa: "R$ 80–150 / pessoa", italiana: "R$ 70–130 / pessoa",
+  peruana: "R$ 90–160 / pessoa", brasileira: "R$ 50–90 / pessoa",
+  chinesa: "R$ 40–70 / pessoa", arabe: "R$ 35–65 / pessoa",
+  vegetariana: "R$ 35–60 / pessoa", petiscos: "R$ 40–80 / pessoa",
+  "cafe-doceria": "R$ 20–45 / pessoa",
+};
+function estimateMealPrice(tipo) { return MEAL_PRICE_BY_TIPO[tipo] || "R$ 50–90 / pessoa"; }
+
+const ATTRACTION_PRICES = {
+  "Cristo Redentor": "R$ 90–190 (van/trem + ingresso)",
+  "Pão de Açúcar": "R$ 150–190 (bondinho ida e volta)",
+  "AquaRio": "R$ 120",
+  "Forte de Copacabana": "R$ 6 (meia R$ 3)",
+  "Museu do Amanhã": "R$ 30 (grátis às terças)",
+  "Museu de Arte do Rio (MAR)": "R$ 20 (grátis às terças)",
+  "Museu Nacional de Belas Artes": "R$ 8 (grátis aos domingos)",
+  "Theatro Municipal": "Visita guiada R$ 20",
+  "Jardim Botânico": "R$ 30",
+  "Planetário do Rio": "R$ 24",
+  "Museu de Arte Moderna (MAM)": "R$ 20 (grátis às quartas)",
+  "Estádio do Maracanã": "R$ 60–90 (tour guiado)",
+  "Cidade do Samba": "R$ 20–40 (visita guiada)",
+  "Ilha Fiscal": "R$ 20 (só sáb/dom, visita guiada)",
+  "Ilha de Paquetá": "R$ 7,50 (travessia de barca)",
+  "Museu do Índio": "R$ 6 (grátis aos domingos)",
+  "Museu da Chácara do Céu": "R$ 8 (grátis às quartas)",
+};
+function estimateAttractionPrice(name) { return ATTRACTION_PRICES[name] || "Gratuito"; }
+
+const DIVERSAO_PRICES = {
+  "Rio Scenarium": "R$ 60–100 (couvert)", "Carioca da Gema": "R$ 40–70 (couvert)",
+  "Fundição Progresso": "R$ 50–120 (varia por show)", "Circo Voador": "R$ 50–150 (varia por show)",
+  "Blue Note Rio": "R$ 80–200 (varia por show)", "Vivo Rio": "R$ 80–250 (varia por show)",
+  "Qualistage": "R$ 100–300 (varia por show)", "Jeunesse Arena": "R$ 100–400 (varia por show)",
+  "Democráticos": "R$ 30–50 (couvert)", "Pedra do Sal": "Gratuito (roda de rua)",
+  "Pedra do Sal (Terça de Samba)": "Gratuito (roda de rua)", "Bip Bip": "Sem couvert (consuma no bar)",
+  "Feira de São Cristóvão": "R$ 5–10 (entrada da feira)",
+};
+function estimateDiversaoPrice(p) { return DIVERSAO_PRICES[p.name] || "R$ 20–50 (couvert, varia por dia)"; }
+
+function getPriceLabel(p) {
+  if (p.cat === "hospedagem") return estimateHotelPrice(p.rating);
+  if (p.cat === "alimentacao") return estimateMealPrice(p.tipo);
+  if (p.cat === "turismo") return estimateAttractionPrice(p.name);
+  if (p.cat === "diversao") return estimateDiversaoPrice(p);
+  return null;
+}
+
+// ---------- HISTÓRIA DOS PONTOS TURÍSTICOS ----------
+const HISTORIA_TURISMO = {
+  "Cristo Redentor": "Inaugurado em 1931, foi erguido por engenheiros brasileiros com o escultor francês Paul Landowski. É uma das Sete Maravilhas do Mundo Moderno.",
+  "Pão de Açúcar": "O bondinho subiu pela primeira vez em 1912, um dos primeiros teleféricos do mundo. O nome vem do formato do morro, parecido com os pães de açúcar da época colonial.",
+  "Escadaria Selarón": "Criada pelo chileno Jorge Selarón a partir de 1990 como reforma da escada em frente à sua casa, virou obra de arte com mais de 2 mil azulejos de todo o mundo.",
+  "Theatro Municipal": "Inaugurado em 1909 e inspirado na Ópera de Paris, é até hoje um dos principais palcos de ópera e balé do Brasil.",
+  "Real Gabinete Português de Leitura": "Fundado em 1837 por imigrantes portugueses, guarda o maior acervo de obras portuguesas fora de Portugal.",
+  "Confeitaria Colombo (visita histórica)": "Aberta em 1894, foi point da elite carioca na Belle Époque — os espelhos e vitrais vieram da Bélgica.",
+  "Sambódromo": "Projetado por Oscar Niemeyer e inaugurado em 1984, é o palco do desfile das escolas de samba no Carnaval.",
+  "Cidade do Samba": "Inaugurada em 2006, reúne os barracões onde as escolas do Grupo Especial montam seus carros alegóricos.",
+  "Estádio do Maracanã": "Construído para a Copa de 1950, já recebeu recordes de público superiores a 170 mil pessoas.",
+  "Ilha Fiscal": "Erguida em 1889 em estilo neogótico, foi palco do último baile da Monarquia, dias antes da Proclamação da República.",
+  "Paço Imperial": "Construído no século 18, foi residência dos governadores coloniais e depois da família real portuguesa.",
+  "Arcos da Lapa": "Antigo aqueduto de 1750 que levava água ao Centro — hoje o bondinho de Santa Teresa passa por cima dele.",
+  "Palácio do Catete": "Foi sede do governo federal entre 1897 e 1960; é onde o presidente Getúlio Vargas morreu, em 1954.",
+  "Quinta da Boa Vista": "Antiga residência da família imperial, cedida a Dom João VI por um comerciante em 1808.",
+  "Museu Nacional de Belas Artes": "Fundado em 1937 a partir do acervo trazido pela família real em 1808, um dos mais importantes do país.",
+  "Catedral Metropolitana": "Construída entre 1964 e 1979 em formato de cone, com vitrais de 64 metros de altura.",
+  "Bonde de Santa Teresa": "Circula desde 1896 e é um dos últimos bondes elétricos em funcionamento no Brasil.",
+  "Forte de Copacabana": "Construído em 1914 para defender a entrada da baía, hoje é museu histórico do Exército.",
+};
+function getHistoria(p) {
+  if (HISTORIA_TURISMO[p.name]) return HISTORIA_TURISMO[p.name];
+  const bySub = {
+    nascer: "Um dos mirantes menos badalados do Rio, parte da história das trilhas pela Mata Atlântica que cerca a cidade.",
+    "por-do-sol": "Faz parte da paisagem carioca há gerações — ponto de encontro tradicional pra fechar o dia com vista.",
+    cultura: "Um pedacinho da história e da cultura carioca, guardado em meio à paisagem da cidade.",
+  };
+  return bySub[p.sub] || "Faz parte do roteiro histórico e cultural do Rio de Janeiro.";
+}
+
+// ---------- MAPA ESQUEMÁTICO DO METRÔ ----------
+const METRO_LINES = [
+  { id: "linha1", color: "#F7941E", label: "Linha 1",
+    stations: ["Uruguaiana","Carioca","Cinelândia","Glória","Catete","Flamengo","Botafogo","Cardeal Arcoverde","Siqueira Campos","Cantagalo","General Osório"] },
+  { id: "linha4", color: "#F5D033", label: "Linha 4",
+    stations: ["General Osório","Nossa Senhora da Paz","Jardim de Alah","Antero de Quental","São Conrado","Gávea","Jardim Oceânico"] },
+  { id: "linha2", color: "#3AA655", label: "Linha 2",
+    stations: ["Pavuna","Acari-Fazenda Botafogo","Coelho Neto","Colégio","Irajá","Vicente de Carvalho","Madureira","Cascadura","Quintino Bocaiúva","Piedade","Encantado","Água Santa","Engenho de Dentro","Sampaio","Lins de Vasconcelos","Engenho Novo","Riachuelo","Triagem","São Cristóvão","Central"] },
+];
+
+function MetroMapView({ onSelectStation }) {
+  return (
+    <div style={{ background: "#0C3A3E", borderRadius: 16, padding: 16, border: "1px solid rgba(225,220,198,0.1)" }}>
+      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 15, fontWeight: 600, marginBottom: 12 }}>Mapa do Metrô Rio</div>
+      {METRO_LINES.map((line) => (
+        <div key={line.id} style={{ marginBottom: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <div style={{ width: 12, height: 12, borderRadius: "50%", background: line.color }} />
+            <span style={{ fontSize: 12.5, fontWeight: 700 }}>{line.label}</span>
+          </div>
+          <div className="scrollRow" style={{ overflowX: "auto", paddingBottom: 6 }}>
+            <div style={{ display: "flex", alignItems: "center", minWidth: line.stations.length * 74 }}>
+              {line.stations.map((s, i) => (
+                <div key={s} style={{ display: "flex", alignItems: "center" }}>
+                  <button
+                    onClick={() => onSelectStation(s)}
+                    style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", width: 74, padding: 0 }}
+                  >
+                    <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#042F35", border: "2.5px solid " + line.color }} />
+                    <span style={{ fontSize: 9.5, color: "rgba(225,220,198,0.75)", marginTop: 5, textAlign: "center", lineHeight: 1.2, height: 26 }}>{s}</span>
+                  </button>
+                  {i < line.stations.length - 1 && <div style={{ width: 30, height: 2.5, background: line.color, flexShrink: 0 }} />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ---------- AGENDA DE DIVERSÃO ----------
+const DIAS_LABELS = { seg: "Segunda", ter: "Terça", qua: "Quarta", qui: "Quinta", sex: "Sexta", sab: "Sábado", dom: "Domingo" };
+const DIAS_ORDER = ["seg", "ter", "qua", "qui", "sex", "sab", "dom"];
+
+function AgendaView({ onSelect }) {
+  const items = PLACES.filter((p) => p.cat === "diversao");
+  return (
+    <div>
+      {DIAS_ORDER.map((d) => {
+        const dayItems = items.filter((p) => p.dias && p.dias.includes(d)).sort((a, b) => b.rating - a.rating);
+        if (dayItems.length === 0) return null;
+        return (
+          <div key={d} style={{ marginBottom: 18 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#76C339" }} />
+              <span style={{ fontFamily: "'Fraunces', serif", fontSize: 15, fontWeight: 600 }}>{DIAS_LABELS[d]}</span>
+              <span style={{ fontSize: 11, color: "rgba(225,220,198,0.4)" }}>{dayItems.length} opções</span>
+            </div>
+            {dayItems.map((p) => (
+              <div key={p.id} onClick={() => onSelect(p)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "9px 12px", background: "#0C3A3E", borderRadius: 10, marginBottom: 6, cursor: "pointer" }}>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600 }}>{p.name}</div>
+                  <div style={{ fontSize: 11, color: "rgba(225,220,198,0.5)" }}>{p.bairro}</div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 11, color: "#76C339", fontWeight: 700 }}>★ {p.rating}</div>
+                  <div style={{ fontSize: 10, color: "#F2C230" }}>{estimateDiversaoPrice(p)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // Bounding box fixo (todo o Rio coberto pelo guia) — mantém o mapa consistente entre categorias
 const BOUNDS = { minLat: -23.10, maxLat: -22.75, minLng: -43.60, maxLng: -43.08 };
