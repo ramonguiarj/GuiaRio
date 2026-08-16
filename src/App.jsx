@@ -983,10 +983,14 @@ export default function RioGuideApp() {
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, padding: "0 20px", margin: "4px 0 4px" }}>
           <p style={{ margin: 0, fontSize: 13, color: "rgba(225,220,198,0.6)", flex: 1 }}>{currentTopic.blurb}</p>
           {activeTopic !== "sobre" && (
-            <div className="viewToggle">
+                        <div className="viewToggle">
               <button className={"viewBtn " + (view === "lista" ? "active" : "")} onClick={() => setView("lista")}><List size={13} /> Lista</button>
               <button className={"viewBtn " + (view === "mapa" ? "active" : "")} onClick={() => setView("mapa")}><MapIcon size={13} /> Mapa</button>
+              {activeTopic === "diversao" && (
+                <button className={"viewBtn " + (view === "agenda" ? "active" : "")} onClick={() => setView("agenda")}><Calendar size={13} /> Agenda</button>
+              )}
             </div>
+
           )}
         </div>
       )}
