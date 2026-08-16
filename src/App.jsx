@@ -1076,11 +1076,18 @@ export default function RioGuideApp() {
       )}
 
 
-      {activeTopic === "sobre" ? null : view === "mapa" ? (
-        <div style={{ padding: "10px 20px" }}>
-          <MapView items={list} coords={coords} onSelect={openFromMap} />
-          <p style={{ fontSize: 11, color: "rgba(225,220,198,0.4)", marginTop: 8 }}>Toque em um pino pra ver detalhes. {coords ? "O ponto azul é você." : ""}</p>
+          {activeTopic === "transporte" && activeSub === "metro" && (
+        <div style={{ padding: "6px 20px 4px" }}>
+          <MetroMapView onSelectStation={(name) => {
+            const found = PLACES.find((p) => p.sub === "metro" && p.name.includes(name));
+            if (found) setSelected(coords ? { ...found, dist: haversine(coords.lat, coords.lng, found.lat, found.lng) } : found);
+          }} />
+          <p style={{ fontSize: 11, color: "rgba(225,220,198,0.4)", marginTop: 8 }}>
+            Mapa esquemático simplificado — para horários oficiais, consulte o app MetrôRio.
+          </p>
         </div>
+      )}
+
       ) : (
         <div style={{ padding: "10px 20px" }}>
           {list.length === 0 && (
