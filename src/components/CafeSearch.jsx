@@ -58,7 +58,4 @@ export default function CafeSearch() {
             )}
           </li>
         ))}
-      </ul>
-    </div>
-  );
-}
+      
