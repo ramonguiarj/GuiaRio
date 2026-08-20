@@ -442,9 +442,12 @@ export default function RioGuideApp() {
         </div>
       )}
 
-      {activeTopic === "sobre" ? null : view === "agenda" && activeTopic === "diversao" ? (
+            {activeTopic === "sobre" ? null : activeTopic === "alimentacao" && activeSub === "cafe" ? (
+        <div style={{ padding: "10px 20px" }}><CafeSearch /></div>
+      ) : view === "agenda" && activeTopic === "diversao" ? (
         <div style={{ padding: "10px 20px" }}><AgendaView onSelect={setSelected} /></div>
       ) : view === "mapa" ? (
+
         <div style={{ padding: "10px 20px" }}>
           <MapView items={list} coords={coords} onSelect={openFromMap} />
           <p style={{ fontSize: 11, color: "rgba(225,220,198,0.4)", marginTop: 8 }}>Toque em um pino pra ver detalhes. {coords ? "O ponto azul é você." : ""}</p>
