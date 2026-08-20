@@ -47,8 +47,7 @@ export default function CafeSearch() {
 
       <ul className="cafe-search__lista">
         {resultados.map((lugar) => (
-          <<li key={lugar.place_id} className="cafe-card">
->
+          <li key={lugar.place_id} className="cafe-card">
             <h3>{lugar.nome}</h3>
             <p>{lugar.bairro || lugar.endereco}</p>
             {lugar.avaliacao != null && (
